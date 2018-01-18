@@ -6,13 +6,14 @@ body {
 }
 .grid {
     margin: 0px;
-    border: 1px solid #aaa;
+    border: 1px solid #257;
     border-width: 0 1px 1px 0;
-    background-color: #CCC;
+    background: #d8f4ff; /* Old browsers */
+    background: linear-gradient(to bottom, #257 0%,#135 100%);
 }
 
 .gridInner {
-    border: 1px solid #aaa;
+    border: 1px solid #0124;
     border-width: 1px 0 0 1px;
     float: left;
 }
@@ -37,18 +38,20 @@ body {
     border-radius:5px;
     border-width:1px;
     border-style:solid;
-    border-color:#fff;
-    background-color:#000;
+    border-color:#479;
+    background-color:#024;
+    background: linear-gradient(to bottom, #024 0%,#012 100%);
     opacity: 0.8;
     box-sizing: border-box;
 }
 
 .optional {
-    background-color:#00f;
+    background-color:#614;
+    border-color:#936;
 }
 
 .roadBlock {
-    background-color:#666;
+    background-color:#023;
     position:absolute;
     z-index:5;
     width:21px;
@@ -56,7 +59,7 @@ body {
 }
 
 .road {
-    background-color:#fff;
+    background-color:#368;
     position:absolute;
     z-index:8;
     opacity:0.5;
