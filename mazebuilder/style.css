@@ -36,18 +36,19 @@ body {
     width:21px;
     height:21px;
     border-radius:5px;
-    border-width:1px;
+    border-width:2px;
     border-style:solid;
-    border-color:#479;
+    border-color:#6ac;
     background-color:#024;
-    background: linear-gradient(to bottom, #024 0%,#012 100%);
+    background: linear-gradient(to bottom, #146 0%,#124 100%);
     opacity: 0.8;
     box-sizing: border-box;
 }
 
 .optional {
     background-color:#614;
-    border-color:#936;
+    background: linear-gradient(to bottom, #614 0%,#412 100%);
+    border-color:#c6a;
 }
 
 .roadBlock {

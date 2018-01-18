@@ -183,16 +183,18 @@ $('.saver').click(function() {
 
 $('.loader').click(function() {
     var field = $('#saveText');
-    var array = field.val().split(';');
+    if (field.val().trim().length > 0) {
+        var array = field.val().split(';');
 
-    for (var i = 0; i < array.length; i++) {
-        var coords = array[i].split(',');
-        if (coords.length === 3) {
-            quickPlace(coords[0], coords[1], 'optional');
-        } else {
-            quickPlace(coords[0], coords[1], null);
+        for (var i = 0; i < array.length; i++) {
+            var coords = array[i].split(',');
+            if (coords.length === 3) {
+                quickPlace(coords[0], coords[1], 'optional');
+            } else {
+                quickPlace(coords[0], coords[1], null);
+            }
+
         }
-
     }
 });
 
@@ -213,11 +215,8 @@ $('#grid').droppable({
 
 function countWaves() {
     var blocks = $('#grid').children('.placed-block');
-    if (blocks.length > 0) {
-        $('#waveCounter').text(Math.ceil(blocks.length / 5));
-        $('#blockCounter').text(blocks.length);
-    }
-
+    $('#waveCounter').text(Math.ceil(blocks.length / 5));
+    $('#blockCounter').text(blocks.length);
 }
 
 function hasBlock(x, y) {
