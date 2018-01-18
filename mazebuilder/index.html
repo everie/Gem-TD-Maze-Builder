@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GemTD MazeBuilder</title>
+    <script src="jquery-3.2.1.min.js" type="text/javascript"></script>
+    <script src="jquery.svg.min.js" type="text/javascript"></script>
+    <script
+            src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<div class="droppable grid" id="grid"></div>
+<div class="draggable block"></div>
+<div id="saveDiv">
+    <button class="saver">Save</button>
+    <button class="loader">Load</button>
+    <button class="pather" onclick="findPath()">Path</button>
+    <button class="debugButton" onclick="toggleDebug()">Debug: false</button>
+    <div>
+        <textarea id="saveText"></textarea>
+    </div>
+    <div id="dataDiv">
+        <div>
+            Finish at wave: <span id="waveCounter">0</span>
+        </div>
+        <div>
+            Blocks: <span id="blockCounter">0</span>
+        </div>
+        <div>
+            Steps: <span id="stepCounter">0</span>
+        </div>
+        <div class="pathData">
+            <div>
+                Pathing data:
+            </div>
+            <div>
+                Passes: <span id="passCounter">0/7</span>
+            </div>
+            <div>
+                Processed: <span id="availableCounter">0</span>
+            </div>
+            <div>
+                Time Passed: <span id="timeCounter">0:00</span>
+            </div>
+        </div>
+        <div>
+            <br><br>
+            How to:<br>
+            Press '<b>E</b>' to place block at your cursor's position.<br>
+            Press '<b>R</b>' to remove block at your cursor's position.<br>
+            Click '<b>Path</b>' if you wanna calculate the full path. (Warning: This can take several minutes!)<br>
+            Click '<b>Save</b>' to save your maze. (copy/paste the content in the textfield and save it in a text-file)<br>
+            Click '<b>Load</b>' when you've pasted a previously saved maze in the textfield.<br>
+        </div>
+    </div>
+</div>
+<div id="path"></div>
+<div id="debugger"></div>
+<script src="js.js" type="text/javascript"></script>
+</body>
+</html>
