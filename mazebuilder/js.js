@@ -7,6 +7,7 @@ var target = undefined;
 var placeBool = false;
 var removeBool = false;
 var debugBool = false;
+var pathArray = [];
 
 $('#path').svg();
 var svg = $('#path').svg('get');
@@ -23,8 +24,24 @@ function toggleDebug() {
     }
 }
 
+function setPathArray() {
+    pathArray = [];
+    $('#pathToggler').children('.pathToggle').each(function(i, elem) {
+        pathArray.push($(elem).hasClass('on'));
+    });
+}
+
+function getActivePaths() {
+    var counter = 0;
+    for (var i = 0; i < pathArray.length; i++) {
+        if (pathArray[i]) counter++;
+    }
+    return counter;
+}
+
 function findPath() {
-    $('#passCounter').text('0/7');
+    setPathArray();
+    $('#passCounter').text('0/' + getActivePaths());
     $('#timeCounter').text('0:00');
     $('.pather').prop('disabled', true).text('Working...');
     pathWorker.postMessage({
@@ -33,14 +50,15 @@ function findPath() {
         max: {
             x: gridWidth,
             y: gridHeight
-        }
+        },
+        passes: pathArray
     });
 
     pathWorker.addEventListener('message', function(e) {
 
         switch (e.data.type) {
             case 'pass':
-                $('#passCounter').text(e.data.count + '/7');
+                $('#passCounter').text(e.data.count + '/' + getActivePaths());
                 $('#timeCounter').text(millisToMinutesAndSeconds(e.data.time));
                 break;
             case 'done':
@@ -50,7 +68,7 @@ function findPath() {
                 } else {
                     handlePath(e.data.paths);
                 }
-                $('.pather').prop('disabled', false).text('Path');
+                $('.pather').prop('disabled', false).text('Calculate Path');
                 break;
             case 'debug':
                 $('#availableCounter').text(e.data.visited.length);
@@ -92,6 +110,10 @@ function handlePath(paths) {
     $('#stepCounter').text(steps);
 }
 
+function removePath() {
+    svg.clear();
+}
+
 function drawTheWay(path) {
 
     svgPath.reset();
@@ -104,7 +126,7 @@ function drawTheWay(path) {
     }
 
     var travel = svgPath.move(pathSteps[0][0], pathSteps[0][1]).line(pathSteps);
-    svg.path(group, travel, {fill: 'none', stroke: 'red', strokeWidth: 5, 'stroke-opacity': 0.4, 'stroke-linecap':'round'});
+    svg.path(group, travel, {fill: 'none', stroke: '#0c6', strokeWidth: 5, 'stroke-opacity': 0.4, 'stroke-linecap':'round'});
 }
 
 function findObstacles() {
@@ -156,6 +178,27 @@ $(window).mousemove(function(e) {
     } else if (e.key == 'r') {
         removeBool = false;
     }
+});
+
+$('.pathToggle').click(function() {
+    var button = $(this);
+    button.toggleClass('on');
+}).on('mouseenter', function() {
+    var parent = $(this);
+    $('.mapFeatures').children('.road').each(function(i, e) {
+        if ($(e).data('n') === parent.data('n')) {
+            $(e).addClass('roadHighlight');
+            return false;
+        }
+    });
+}).on('mouseleave', function() {
+    var parent = $(this);
+    $('.mapFeatures').children('.road').each(function(i, e) {
+        if ($(e).data('n') === parent.data('n')) {
+            $(e).removeClass('roadHighlight');
+            return false;
+        }
+    });
 });
 
 creategrid(gridSize);
@@ -293,7 +336,11 @@ function creategrid(size){
 }
 
 function placeMap() {
+
+    var roadCount = 0;
+
     return $('<div></div>')
+        .addClass('mapFeatures')
         .append(placeBlock(10, 6))
         .append(placeBlock(12, 6))
         .append(placeBlock(14, 6))
@@ -324,14 +371,13 @@ function placeMap() {
         .append(placeBlock(28, 48))
         .append(placeBlock(30, 46))
 
-        .append(placeRoad(0, 10, 6, 'horizontal'))
-        .append(placeRoad(32, 10, 6, 'horizontal'))
-        .append(placeRoad(16, 26, 30, 'horizontal'))
-        .append(placeRoad(32, 25, 46, 'horizontal'))
-
-        .append(placeRoad(10, 18, 12, 'vertical'))
-        .append(placeRoad(10, 18, 44, 'vertical'))
-        .append(placeRoad(10, 34, 28, 'vertical'))
+        .append(placeRoad(0, 10, 6, 'horizontal', ++roadCount))
+        .append(placeRoad(10, 18, 12, 'vertical', ++roadCount))
+        .append(placeRoad(16, 26, 30, 'horizontal', ++roadCount))
+        .append(placeRoad(10, 18, 44, 'vertical', ++roadCount))
+        .append(placeRoad(32, 10, 6, 'horizontal', ++roadCount))
+        .append(placeRoad(10, 34, 28, 'vertical', ++roadCount))
+        .append(placeRoad(32, 25, 46, 'horizontal', ++roadCount))
 }
 
 function placeBlock(x, y) {
@@ -343,7 +389,7 @@ function placeBlock(x, y) {
         });
 }
 
-function placeRoad(from, to, follow, direction) {
+function placeRoad(from, to, follow, direction, roadCount) {
     var begin = gridSize * from;
     var end = (gridSize * to) - 1;
     var along = gridSize * follow;
@@ -364,6 +410,7 @@ function placeRoad(from, to, follow, direction) {
 
     return $('<div></div>')
         .addClass('road ' + direction)
+        .data('n', roadCount)
         .css(css);
 }
 

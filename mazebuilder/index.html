@@ -13,49 +13,89 @@
 </head>
 <body>
 <div class="droppable grid" id="grid"></div>
-<div class="draggable block"></div>
+
+<!--<div class="draggable block"></div>-->
+
 <div id="saveDiv">
-    <button class="saver">Save</button>
-    <button class="loader">Load</button>
-    <button class="pather" onclick="findPath()">Path</button>
-    <button class="debugButton" onclick="toggleDebug()">Debug: false</button>
-    <div>
-        <textarea id="saveText"></textarea>
-    </div>
-    <div id="dataDiv">
-        <div>
-            Finish at wave: <span id="waveCounter">0</span>
-        </div>
-        <div>
-            Blocks: <span id="blockCounter">0</span>
-        </div>
-        <div>
-            Steps: <span id="stepCounter">0</span>
-        </div>
-        <div class="pathData">
+    <div class="menuBox">
+        <div class="title">Maze data</div>
+        <div class="content">
             <div>
-                Pathing data:
+                Blocks: <span id="blockCounter">0</span>
             </div>
             <div>
-                Passes: <span id="passCounter">0/7</span>
+                Finish at wave: <span id="waveCounter">0</span>
             </div>
-            <div>
-                Processed: <span id="availableCounter">0</span>
-            </div>
-            <div>
-                Time Passed: <span id="timeCounter">0:00</span>
-            </div>
-        </div>
-        <div>
-            <br><br>
-            How to:<br>
-            Press '<b>E</b>' to place block at your cursor's position.<br>
-            Press '<b>R</b>' to remove block at your cursor's position.<br>
-            Click '<b>Path</b>' if you wanna calculate the full path. (Warning: This can take several minutes!)<br>
-            Click '<b>Save</b>' to save your maze. (copy/paste the content in the textfield and save it in a text-file)<br>
-            Click '<b>Load</b>' when you've pasted a previously saved maze in the textfield.<br>
         </div>
     </div>
+
+    <div class="menuBox">
+        <div class="title">Load/Save</div>
+        <div class="content">
+            <button class="saver">Save</button>
+            <button class="loader">Load</button>
+            <div>
+                <textarea id="saveText" cols="40" rows="5"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="menuBox">
+        <div class="title">Toggle Passes</div>
+        <div class="content">
+            <div id="pathToggler">
+                <button class="pathToggle on" data-n="1">Start > 1</button>
+                <button class="pathToggle on" data-n="2">1 > 2</button>
+                <button class="pathToggle on" data-n="3">2 > 3</button>
+                <button class="pathToggle on" data-n="4">3 > 4</button>
+                <button class="pathToggle on" data-n="5">4 > 5</button>
+                <button class="pathToggle on" data-n="6">5 > 6</button>
+                <button class="pathToggle on" data-n="7">6 > End</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="menuBox">
+        <div class="title">Pathing</div>
+        <div class="content">
+            <button class="pather" onclick="findPath()">Calculate Path</button>
+            <button class="debugButton" onclick="toggleDebug()">Debug: false</button>
+            <button class="nopather" onclick="removePath()">Clear Path</button>
+
+            <div>
+                <div class="pathData">
+                    <div>
+                        Steps: <span id="stepCounter">Calculate me</span>
+                    </div>
+                    <div>
+                        Passes: <span id="passCounter">0/7</span>
+                    </div>
+                    <div>
+                        Processed: <span id="availableCounter">0</span>
+                    </div>
+                    <div>
+                        Time Passed: <span id="timeCounter">0:00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="menuBox">
+        <div class="title">Help</div>
+        <div class="content">
+            <div>
+                How to:<br>
+                Press '<b>E</b>' to place block at your cursor's position.<br>
+                Press '<b>R</b>' to remove block at your cursor's position.<br>
+                '<b>Right-click</b>' a placed block to mark it as optional.<br>
+                Click '<b>Path</b>' if you wanna calculate the full path. (Warning: This can take several minutes!)<br>
+                Click '<b>Save</b>' to save your maze. (copy/paste the content in the textfield and save it in a text-file)<br>
+                Click '<b>Load</b>' when you've pasted a previously saved maze in the textfield.<br>
+            </div>
+        </div>
+    </div>
+
 </div>
 <div id="path"></div>
 <div id="debugger"></div>

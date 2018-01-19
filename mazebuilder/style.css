@@ -3,6 +3,8 @@ body {
     background-color:#012;
     color:#fff;
     overflow:hidden;
+    font-family: verdana;
+    font-size:12px;
 }
 .grid {
     margin: 0px;
@@ -21,7 +23,6 @@ body {
 .draggable {
     position: absolute;
     z-index: 10;
-    cursor: pointer;
     left:600px;
     opacity: 0.8;
 
@@ -43,6 +44,10 @@ body {
     background: linear-gradient(to bottom, #146 0%,#124 100%);
     opacity: 0.8;
     box-sizing: border-box;
+    cursor:grab;
+}
+.ui-draggable-dragging {
+    cursor:grabbing;
 }
 
 .optional {
@@ -66,6 +71,11 @@ body {
     opacity:0.5;
 }
 
+.roadHighlight {
+    background-color:#0c6;
+    opacity:0.6;
+}
+
 .horizontal {
     height:21px;
 }
@@ -76,7 +86,7 @@ body {
 
 #saveDiv {
     position:absolute;
-    top:50px;
+    top:10px;
     left:600px;
 }
 
@@ -127,4 +137,55 @@ body {
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+}
+
+button, textarea {
+    border-radius:5px;
+    border-width:2px;
+    border-style:solid;
+    border-color:#6ac;
+    background-color:#024;
+    background: linear-gradient(to bottom, #146 0%,#124 100%);
+    opacity: 0.8;
+    box-sizing: border-box;
+    color:#fff;
+    padding:6px;
+    font-family: verdana;
+    font-size:12px;
+}
+
+.on {
+    border-color:#6ca;
+    background-color:#142;
+    background: linear-gradient(to bottom, #164 0%,#142 100%);
+}
+
+.on:hover {
+    box-shadow: 0 0 5px #6ca;
+    text-shadow: 0px 0px 2px #9fc;
+}
+
+button:hover, textarea:hover, .block:hover {
+    box-shadow: 0 0 5px #6ac;
+}
+button:hover {
+    text-shadow: 0px 0px 2px #9cf;
+}
+textarea {
+    font-size:11px;
+}
+button:disabled {
+    background: linear-gradient(to bottom, #444 0%,#222 100%);
+    color:#aaa;
+}
+
+.menuBox {
+    margin-bottom:10px;
+}
+.title {
+    font-size:15px;
+    font-weight:bold;
+}
+.content {
+    margin-top:5px;
 }

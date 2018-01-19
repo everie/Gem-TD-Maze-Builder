@@ -17,75 +17,90 @@ self.addEventListener('message', function(e) {
     maxX = e.data.max.x;
     maxY = e.data.max.y;
 
-    findPath();
+    findPath(e.data.passes);
 }, false);
 
-function findPath() {
+function findPath(checkPasses) {
     var paths = [];
     var passes = 0;
     var startTime = Date.now();
 
-    findAWay(1, 7, 13, 7);
-    paths.push(theWay);
-    self.postMessage({
-        type: 'pass',
-        count: ++passes,
-        visited: visited.length,
-        time: Date.now() - startTime
-    });
-    findAWay(13, 7, 13, 31);
-    paths.push(theWay);
-    self.postMessage({
-        type: 'pass',
-        count: ++passes,
-        visited: visited.length,
-        time: Date.now() - startTime
-    });
+    if (checkPasses[0]) {
+        findAWay(1, 7, 13, 7);
+        paths.push(theWay);
+        self.postMessage({
+            type: 'pass',
+            count: ++passes,
+            visited: visited.length,
+            time: Date.now() - startTime
+        });
+    }
 
-    findAWay(13, 31, 45, 31);
-    paths.push(theWay);
-    self.postMessage({
-        type: 'pass',
-        count: ++passes,
-        visited: visited.length,
-        time: Date.now() - startTime
-    });
+    if (checkPasses[1]) {
+        findAWay(13, 7, 13, 31);
+        paths.push(theWay);
+        self.postMessage({
+            type: 'pass',
+            count: ++passes,
+            visited: visited.length,
+            time: Date.now() - startTime
+        });
+    }
 
-    findAWay(45, 31, 45, 8);
-    paths.push(theWay);
-    self.postMessage({
-        type: 'pass',
-        count: ++passes,
-        visited: visited.length,
-        time: Date.now() - startTime
-    });
+    if (checkPasses[2]) {
+        findAWay(13, 31, 45, 31);
+        paths.push(theWay);
+        self.postMessage({
+            type: 'pass',
+            count: ++passes,
+            visited: visited.length,
+            time: Date.now() - startTime
+        });
+    }
 
-    findAWay(45, 8, 30, 8);
-    paths.push(theWay);
-    self.postMessage({
-        type: 'pass',
-        count: ++passes,
-        visited: visited.length,
-        time: Date.now() - startTime
-    });
+    if (checkPasses[3]) {
+        findAWay(45, 31, 45, 8);
+        paths.push(theWay);
+        self.postMessage({
+            type: 'pass',
+            count: ++passes,
+            visited: visited.length,
+            time: Date.now() - startTime
+        });
+    }
 
-    findAWay(30, 8, 30, 47);
-    paths.push(theWay);
-    self.postMessage({
-        type: 'pass',
-        count: ++passes,
-        visited: visited.length,
-        time: Date.now() - startTime
-    });
+    if (checkPasses[4]) {
+        findAWay(45, 8, 30, 8);
+        paths.push(theWay);
+        self.postMessage({
+            type: 'pass',
+            count: ++passes,
+            visited: visited.length,
+            time: Date.now() - startTime
+        });
+    }
 
-    findAWay(30, 47, 56, 47);
-    paths.push(theWay);
-    self.postMessage({
-        type: 'pass',
-        count: ++passes,
-        visited: visited.length,
-        time: Date.now() - startTime
-    });
+    if (checkPasses[5]) {
+        findAWay(30, 8, 30, 47);
+        paths.push(theWay);
+        self.postMessage({
+            type: 'pass',
+            count: ++passes,
+            visited: visited.length,
+            time: Date.now() - startTime
+        });
+    }
+
+    if (checkPasses[6]) {
+        findAWay(30, 47, 56, 47);
+        paths.push(theWay);
+        self.postMessage({
+            type: 'pass',
+            count: ++passes,
+            visited: visited.length,
+            time: Date.now() - startTime
+        });
+    }
 
     self.postMessage({
         type: 'done',
