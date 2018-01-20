@@ -84,17 +84,19 @@ function drawDebug(data) {
     var visited = data.visited;
     var available = data.available;
     var layer = $('#debugger').empty();
+    /*
     for (var i = 0; i < visited.length; i++) {
         layer.append(
             $('<div></div>')
-                .css({'left': (visited[i].x * gridSize) + (gridSize * 0.25), 'top': (visited[i].y * gridSize) + (gridSize * 0.25)})
+                .css({'left': (visited[i].x * gridSize) - (gridSize * 0.75), 'top': (visited[i].y * gridSize) - (gridSize * 0.75)})
                 .addClass('bug')
         );
     }
+    */
     for (var i = 0; i < available.length; i++) {
         layer.append(
             $('<div></div>')
-                .css({'left': (available[i].x * gridSize) + (gridSize * 0.25), 'top': (available[i].y * gridSize) + (gridSize * 0.25)})
+                .css({'left': (available[i].x * gridSize) - (gridSize * 0.75), 'top': (available[i].y * gridSize) - (gridSize * 0.75)})
                 .addClass('bug2')
         );
     }

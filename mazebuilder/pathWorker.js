@@ -131,22 +131,22 @@ function findAWay(startX, startY, endX, endY) {
 
         var newOptions = [];
 
-        for (var i = 0; i < available.length; i++) {
+        var aLen = available.length;
+        for (var i = 0; i < aLen; i++) {
             var a = available[i];
 
             visited.push(a);
             var currentOptions = lookAround(a);
-            for (var j = 0; j < currentOptions.length; j++) {
+            var coLen = currentOptions.length;
+            for (var j = 0; j < coLen; j++) {
                 var n = currentOptions[j];
 
                 if (n.x === endX && n.y === endY) {
-                    //newOptions.push(n);
                     visited.push(n);
                     found = true;
                     break;
                 } else {
-                    if (//contains(visited, {x: n.x, y: n.y}) &&
-                        !contains(newOptions, {x: n.x, y: n.y})) {
+                    if (!contains(newOptions, {x: n.x, y: n.y})) {
                         newOptions.push(n);
                     }
                 }
@@ -244,6 +244,7 @@ function lookAround(c) {
         available.push(p.right);
     }
 
+    /*
     if (isAvailable(p.upleft.x, p.upleft.y)) {
         if (isAvailable(p.up.x, p.up.y) || isAvailable(p.left.x, p.left.y)) {
             available.push(p.upleft);
@@ -264,6 +265,7 @@ function lookAround(c) {
             available.push(p.downright);
         }
     }
+    */
 
     return available;
 }
