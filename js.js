@@ -8,6 +8,8 @@ var placeBool = false;
 var removeBool = false;
 var debugBool = false;
 var pathArray = [];
+var countRepeats = {};
+var pathAnimBool = false;
 
 $('#path').svg();
 var svg = $('#path').svg('get');
@@ -41,6 +43,7 @@ function getActivePaths() {
 
 function findPath() {
     setPathArray();
+    removePath();
     $('#passCounter').text('0/' + getActivePaths());
     $('#timeCounter').text('0:00');
     $('.pather').prop('disabled', true).text('Working...');
@@ -103,17 +106,45 @@ function drawDebug(data) {
 }
 
 function handlePath(paths) {
-    svg.clear();
     var steps = 0;
+    countRepeats = {};
+    pathAnimBool = true;
     paths.forEach(function(p) {
         steps += p.length;
         drawTheWay(p);
     });
-    $('#stepCounter').text(steps);
+    $('#stepCounter').text(steps + ', Visits: ');
+    handleRepeatSteps(steps);
 }
 
 function removePath() {
     svg.clear();
+    pathAnimBool = false;
+}
+
+function handleRepeatSteps(steps) {
+    var keys = Object.keys(countRepeats);
+    var score = {};
+
+    for (var i = 0; i < keys.length; i++) {
+        var amount = "x" + countRepeats[keys[i]];
+        if (amount in score) {
+            score[amount]++;
+        } else {
+            score[amount] = 1;
+        }
+    }
+
+    keys = Object.keys(score);
+    keys.sort();
+
+    for (var j = 0; j < keys.length; j++) {
+        var c = parseInt(keys[j].slice(1));
+        var x = score[keys[j]];
+        var visits = c * x;
+        var pct = visits / steps * 100;
+        $('#stepCounter').append('<b>' + c + '</b> = ' + pct.toFixed(1) + '% ');
+    }
 }
 
 function drawTheWay(path) {
@@ -124,11 +155,40 @@ function drawTheWay(path) {
     var pathSteps = [];
 
     for (var i = 0; i < path.length; i++) {
-        pathSteps.push([(path[i].x * gridSize) - (gridSize / 2), (path[i].y * gridSize) - (gridSize / 2)]);
+        countRepeatSteps(path[i]);
+        pathSteps.push([half(path[i].x * gridSize, false), half(path[i].y * gridSize, false)]);
     }
 
     var travel = svgPath.move(pathSteps[0][0], pathSteps[0][1]).line(pathSteps);
-    svg.path(group, travel, {fill: 'none', stroke: '#0c6', strokeWidth: 5, 'stroke-opacity': 0.4, 'stroke-linecap':'round'});
+    svg.path(group, travel, {
+        fill: 'none',
+        stroke: '#0c6',
+        strokeWidth: 5,
+        'stroke-opacity': 0.4,
+        'stroke-linecap':'round',
+        'stroke-linejoin':'round',
+        'stroke-dasharray':'10'});
+
+    animateStroke(group);
+}
+
+function animateStroke(element) {
+    $(element).css('stroke-dashoffset', 0).animate({
+        'stroke-dashoffset':-20
+    }, 2000, 'linear', function() {
+        if (pathAnimBool) {
+            animateStroke(this);
+        }
+    });
+}
+
+function countRepeatSteps(point) {
+    var key = point.x + 'x' + point.y;
+    if (key in countRepeats) {
+        countRepeats[key]++;
+    } else {
+        countRepeats[key] = 1;
+    }
 }
 
 function findObstacles() {
